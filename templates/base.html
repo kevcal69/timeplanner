@@ -1,0 +1,59 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>
+            {% block pagetitle %}
+                Planner
+            {% endblock %}
+        </title>
+        <style media="screen">
+            * {
+                margin: 0 auto;
+            },
+            body {
+                overflow: hidden;
+            }
+        </style>
+        <link rel="stylesheet" href="{% static '/css/semantic.min.css' %}" media="screen" title="no title">
+        <link rel="stylesheet" href="{% static '/css/icon.min.css' %}" media="screen" title="no title">
+        {% block styles %}
+        {% endblock %}
+        {% block metas %}
+        {% endblock %}
+    </head>
+    <body>
+        <body>
+            <div class="ui bottom attached">
+                <div class="ui visible inverted left vertical sidebar menu">
+                    <a class="item">
+                        <i class="home icon"></i>
+                        Create Group
+                    </a>
+                    <a class="item">
+                        <i class="block layout icon"></i>
+                        Watch groups
+                    </a>
+                    <a class="item">
+                        <i class="calendar icon"></i>
+                        {% include "form.html" %}
+                    </a>
+                </div>
+                <div class="pusher">
+                    <div class="ui basic segment">
+                        {% block content %}
+                        {% endblock %}
+                    </div>
+                </div>
+            </div>
+
+        </body>
+
+    </body>
+</html>
+
+<script   src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="{% static 'js/semantic.min.js' %}" charset="utf-8"></script>
+{% block scripts %}
+{% endblock %}
