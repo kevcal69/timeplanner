@@ -1,1 +1,23 @@
-/home/channelfix/workspaces/timeplanner/static/css/css.css
+.hidden {
+    display: none !important;
+}
+
+.form-cont {
+    width: 500px;
+    margin: 50px;
+}
+.coltable {
+    width: 500px;
+}
+.csv {
+    width: 500px;
+    margin: 50px;
+}
+
+.results tbody tr td {
+    padding: 5px !important;
+}
+
+.working-hours {
+    background-color: black;
+}
