@@ -2,52 +2,7 @@
 {% load static %}
 
 {% block content %}
-    <table class="ui single line table collapsing">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>City</th>
-                <th>Country Code</th>
-                <th>tz</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for record in records%}
-                <tr>
-                    <td>{{record.id}}</td>
-                    <td>{{record.city}}</td>
-                    <td>{{record.country_code}}</td>
-                    <td>GMT {{record.timezone}}</td>
-                    <td class="table-action">
-                        <div class="ui floating labeled icon dropdown button">
-                            <span class="text">Add time</span>
-                            <div class="menu">
-                                <div class="header">
-                                    24 hours format
-                                </div>
-                                {% for i in "xxxxxxxxxxxxxxxxxxxxxxxx" %}
-                                    <div class="item">
-                                        {{ forloop.counter0 }} : 00
-                                    </div>
-                                {% endfor %}
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-        <tfoot class="full-width">
-            <tr>
-                <th></th>
-                <th colspan="4">
-                    <div class="ui right floated small primary labeled icon button">
-                        Create Group
-                    </div>
-                </th>
-            </tr>
-        </tfoot>
-    </table>
+    {% include "form.html" %}
 {% endblock %}
 
 {% block scripts %}

@@ -1,8 +1,15 @@
-<form class="ui inverted form" action="{% url 'index-admin' %}" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    <div class="field">
-        <label>Upload *.csv file</label>
-        <input type="file" name="file_field" id="fileToUpload" accept=".csv">
+<div class="ui collapsing csv">
+    <h3 class="ui top attached header">
+        Upload CSV
+    </h3>
+    <div class="ui attached segment">
+        <form class="ui inverted form" action="{% url 'index-admin' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="field">
+                <label>Upload *.csv file</label>
+                <input type="file" name="file_field" id="fileToUpload" accept=".csv">
+            </div>
+            <button class="ui button" type="submit">Submit</button>
+        </form>
     </div>
-    <button class="ui button" type="submit">Submit</button>
-</form>
+</div>

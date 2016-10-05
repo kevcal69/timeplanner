@@ -40,6 +40,16 @@ class IndexAdminView(TemplateView):
         return HttpResponseRedirect(reverse('index-admin'))
 
 
+class CreateGroupView(TemplateView):
+    template_name = 'creategroup.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(CreateGroupView, self).\
+            get_context_data(*args, **kwargs)
+        context['records'] = TimezoneRecords.objects.all()
+        return context
+
+
 class AddClientWorkers(View):
 
     def post(self, request, *args, **kwargs):
