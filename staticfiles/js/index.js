@@ -1,0 +1,1 @@
+/home/channelfix/workspaces/timeplanner/static/js/index.js
