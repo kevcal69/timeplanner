@@ -37,7 +37,7 @@ class IndexAdminView(TemplateView):
                 TimezoneRecords.objects.bulk_create(data)
             except:
                 print 'Not a csv'
-        return HttpResponseRedirect(reverse('index-admin'))
+        return HttpResponseRedirect(reverse('create-group'))
 
 
 class CreateGroupView(TemplateView):
