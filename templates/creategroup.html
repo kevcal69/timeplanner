@@ -43,17 +43,12 @@
     <table class="ui collapsing table results hidden">
         <thead>
             <tr class='cities-header'>
-                <th>Time</th>
+                <th class='four wide column'>Cities</th>
+                <th class='four wide column'>Schedules</th>
             </tr>
         </thead>
-        <tbody>
-            {% for i in 'xxxxxxxxxxxxxxxxxxxxxxxx'  %}
-                <tr class="column-{{ forloop.counter0 }}">
-                    <td>
-                        {{ forloop.counter0 }}
-                    </td>
-                </tr>
-            {% endfor %}
+        <tbody class='results-body'>
+
         </tbody>
         </table>
 

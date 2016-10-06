@@ -9,6 +9,7 @@ from django.shortcuts import render
 from django.views.generic import View, TemplateView
 
 from timegroup.models import TimezoneRecords
+from timegroup import util
 # Create your views here.
 
 
@@ -35,7 +36,8 @@ class IndexAdminView(TemplateView):
                     for line in lines
                 ]
                 TimezoneRecords.objects.bulk_create(data)
-            except:
+            except Exception as e:
+                print dir(e)
                 print 'Not a csv'
         return HttpResponseRedirect(reverse('create-group'))
 
@@ -46,16 +48,29 @@ class CreateGroupView(TemplateView):
     def get_context_data(self, *args, **kwargs):
         context = super(CreateGroupView, self).\
             get_context_data(*args, **kwargs)
-        context['records'] = TimezoneRecords.objects.all()
+
+        context['records'] = TimezoneRecords.objects.all().order_by('timezone')
+
         return context
 
 
-class AddClientWorkers(View):
+class GroupView(View):
 
-    def post(self, request, *args, **kwargs):
-        tz = request.POST.get('timezone')
-        ti = request.POST.get('timein')
-        to = request.POST.get('timeout')
-        co = request.POST.get('country_code')
+    def get(self, request, *args, **kwargs):
+        number = request.GET.get('number', 5)
+        records = self.to_dict(TimezoneRecords.objects.all()
+                               .order_by('timezone'))
 
-        return HttpResponse(200)
+        results = util.createGroup(records, number)
+        return HttpResponse(json.dumps(results))
+
+    def to_dict(self, obj):
+        listObj = []
+        for o in obj:
+            listObj.append({
+                'timezone': o.timezone,
+                'pk': o.pk,
+                'city': o.city,
+                'country_code': o.country_code
+            })
+        return listObj
