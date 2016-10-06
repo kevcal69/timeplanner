@@ -1,7 +1,7 @@
 import os
 
 # default values for time
-D_GMT = 8
+D_GMT = 3
 D_TIME_IN = 9
 D_TIME_OUT = 20
 
