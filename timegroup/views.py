@@ -59,8 +59,8 @@ class GroupView(View):
     def get(self, request, *args, **kwargs):
         gmt = request.GET.get('gmt', '') or settings.D_GMT
         number = request.GET.get('num', '') or 4
-        timein = request.GET.get('timein', '') or settings.D_WORKTIME_IN
-        timeout = request.GET.get('timeout', '') or settings.D_WORKTIME_OUT
+        timein = request.GET.get('timein', '') or settings.D_TIME_IN
+        timeout = request.GET.get('timeout', '') or settings.D_TIME_OUT
         data = {
             'gmt': int(gmt),
             'num': int(number),
@@ -69,7 +69,7 @@ class GroupView(View):
         }
 
         # edit if timeout is lesser than timein
-        maxTimeDiff = timeout - timein
+        maxTimeDiff = settings.D_WORKTIME_OUT - settings.D_WORKTIME_IN
         obj = []
         for tz in TimezoneRecords.objects.all().order_by('timezone'):
             if abs(util.getTimeDifference(

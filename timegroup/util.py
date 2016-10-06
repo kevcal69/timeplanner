@@ -9,6 +9,7 @@ def createGroup(obj, data):
 
     workingTimeIn = settings.D_WORKTIME_IN
     workingTimeOut = settings.D_WORKTIME_OUT
+    maxTimeDiff = settings.D_WORKTIME_OUT - settings.D_WORKTIME_IN
 
     group = [obj[i: i + number] for i in range(0, len(obj), number)]
     groupings = []
@@ -18,8 +19,11 @@ def createGroup(obj, data):
         print gr[0]['city'], gr[1]['city']
         lbtime = workingTimeIn + lbtimeDiff
         ubtime = workingTimeOut + ubtimeDiff
-        meetup = getMeetUpTime(lbtime, ubtime, default_timein, default_timeout)
+
+        meetup = getMeetUpTime(lbtime, ubtime,
+                               default_timein, default_timeout, maxTimeDiff)
         if len(meetup) > 0:
+            print meetup
             for g in gr:
                     timeDiff = getTimeDifference(baseGMT, g['timezone']) * -1
                     ub = timeDiff + meetup[0]
@@ -43,12 +47,18 @@ def getTimeDifference(baseGMT, offsetGMT):
         return diffTime * -1 if baseGMT >= 0 else diffTime
 
 
-def getMeetUpTime(xti, xto, yti, yto):
-    x = []
-    for i in xrange(xti, xto):
-        x.append(i if i <= 23 else i - 24)
+def getMeetUpTime(xti, xto, yti, yto, max):
+    x1 = []
+    for i in xrange(xti, xti+max):
+        x1.append(i if i <= 23 else i - 24)
+    x2 = []
+    for i in xrange(xto-max, xto):
+        x2.append(i if i < 0 else 24 - i)
     y = []
     for i in xrange(yti, yto):
         y.append(i if i <= 23 else i - 24)
-    print x, y
-    return list(set(x) & set(y))
+    timeIn = settings.D_WORKTIME_IN
+    timeOut = settings.D_WORKTIME_OUT
+    workingTime = set([i for i in xrange(timeIn, timeOut)])
+
+    return list((set(x1) & set(y)) & (set(x2) & set(y)))
