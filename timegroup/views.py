@@ -37,7 +37,6 @@ class IndexAdminView(TemplateView):
                 ]
                 TimezoneRecords.objects.bulk_create(data)
             except Exception as e:
-                print dir(e)
                 print 'Not a csv'
         return HttpResponseRedirect(reverse('create-group'))
 
@@ -74,8 +73,6 @@ class GroupView(View):
         for tz in TimezoneRecords.objects.all().order_by('timezone'):
             if abs(util.getTimeDifference(
                     int(gmt), tz.timezone)) < maxTimeDiff:
-                print tz.city, tz.timezone, abs(util.getTimeDifference(
-                        int(gmt), tz.timezone))
                 obj.append(tz)
         records = self.to_dict(obj)
 

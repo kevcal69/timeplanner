@@ -16,14 +16,13 @@ def createGroup(obj, data):
     for gr in group:
         lbtimeDiff = getTimeDifference(baseGMT, gr[0]['timezone'])
         ubtimeDiff = getTimeDifference(baseGMT, gr[-1]['timezone'])
-        print gr[0]['city'], gr[1]['city']
+
         lbtime = workingTimeIn + lbtimeDiff
         ubtime = workingTimeOut + ubtimeDiff
 
         meetup = getMeetUpTime(lbtime, ubtime,
                                default_timein, default_timeout, maxTimeDiff)
         if len(meetup) > 0:
-            print meetup
             for g in gr:
                     timeDiff = getTimeDifference(baseGMT, g['timezone']) * -1
                     ub = timeDiff + meetup[0]
