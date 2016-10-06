@@ -1,11 +1,11 @@
 from django.conf import settings
 
 
-def createGroup(obj, number):
-    number -= 1
-    baseGMT = settings.D_GMT
-    default_timein = settings.D_TIME_IN
-    default_timeout = settings.D_TIME_OUT
+def createGroup(obj, data):
+    number = data['num'] - 1
+    baseGMT = data['gmt']
+    default_timein = data['timein']
+    default_timeout = data['timeout']
 
     workingTimeIn = settings.D_WORKTIME_IN
     workingTimeOut = settings.D_WORKTIME_OUT
@@ -18,10 +18,18 @@ def createGroup(obj, number):
         lbtime = workingTimeIn + lbtimeDiff
         ubtime = workingTimeOut + ubtimeDiff
         meetup = getMeetUpTime(lbtime, ubtime, default_timein, default_timeout)
-        groupings.append({
-            'group': gr,
-            'time': meetup
-        })
+        if len(meetup) > 0:
+            for g in gr:
+                    timeDiff = getTimeDifference(baseGMT, g['timezone']) * -1
+                    ub = timeDiff + meetup[0]
+                    ub = 24 - ub if ub > 23 else ub
+                    lb = timeDiff + meetup[-1]
+                    lb = 24 - lb if lb > 23 else lb
+                    g['time'] = [ub, lb]
+            groupings.append({
+                'group': gr,
+                'time': meetup
+            })
     return groupings
 
 

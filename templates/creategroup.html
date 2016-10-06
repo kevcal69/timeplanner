@@ -2,9 +2,38 @@
 {% load static %}
 
 {% block content %}
-<div class="ui form-cont">
+<div class="ui actions">
     <h3 class="ui top attached header">
-        Create Group
+        Actions
+    </h3>
+    <div class="ui list">
+        <a class="item" href="{% url 'upload' %}">
+            <i class="arrow circle outline up icon"></i>
+            <div class="content">
+                <div class="header">Upload a CSV</div>
+                <div class="description">Upload CSV file that contains "country code(2 letter), city, timezone in GMT(+3, -4)" in this format</div>
+            </div>
+        </a>
+        <a class="item display">
+            <i class="align justify icon"></i>
+            <div class="content">
+                <div class="header">Display All Records</div>
+                <div class="description">Fetch and display all records. This will all uploaded records.</div>
+            </div>
+        </a>
+        <a class="item create">
+            <i class="grid layout icon"></i>
+            <div class="content">
+                <div class="header">Create Group</div>
+                <div class="description">Create group base on number inputted</div>
+            </div>
+        </a>
+    </div>
+</div>
+
+<div class="ui form-cont hidden">
+    <h3 class="ui top attached header">
+        All records
     </h3>
     <table class="ui table">
         <thead>
@@ -12,46 +41,54 @@
                 <th>City</th>
                 <th>Country Code</th>
                 <th>Timezone</th>
-                <th>Add</th>
             </tr>
         </thead>
         <tbody>
             {% for record in records%}
                 <tr class ="record" data-flag="0">
                     <td>{{record.country_code}}</td>
-                    <td class="city">{{record.city}}</td>
-                    <td class="gmt" data-gmt="{{record.timezone}}">GMT {{record.timezone}}</td>
-                    <td>
-                        <button type="button" class="ui button green add" name="button">add</button>
-                        <button type="button" class="ui button red del hidden" name="button">del</button>
-                    </td>
+                    <td>{{record.city}}</td>
+                    <td>GMT {{record.timezone}}</td>
                 </tr>
             {% endfor %}
         </tbody>
-        <tfoot class="full-width">
-            <tr>
-                <th colspan="3">
-                    <input type="button" class='save' value="Create Group">
-                    <input type="button" class='reset' value="Reset">
-                </th>
-                <th>
-                    <span class='left'>0</span>
-                </th>
-            </tr>
-        </tfoot>
     </table>
+</div>
+
+<div class="ui res-container">
+    <div class="form config hidden">
+        <div class="ui form">
+            <div class="inline field">
+                <label>Input your GMT</label>
+                <input type="text" class="gmt" placeholder="Greenwich Mean Time">
+            </div>
+            <div class="inline field">
+                <label>Number of groups</label>
+                <input type="text" class="num" placeholder="4 default">
+            </div>
+            <div class="inline field">
+                <label>Input your Working Time in 24 hours without the minutes</label>
+                <div class="inline field">
+                    <input type="text" class="time_in" placeholder="Time in">
+                    <input type="text" class="time_out" placeholder="Time out">
+                </div>
+            </div>
+            <button class="ui secondary button generate">Generate</button>
+            <label>If no value inputted default value is provided</label>
+        </div>
+    </div>
     <table class="ui collapsing table results hidden">
         <thead>
             <tr class='cities-header'>
-                <th class='four wide column'>Cities</th>
+                <th class='seven wide column'>Cities</th>
                 <th class='four wide column'>Schedules</th>
+                <th class='two wide column'>Action</th>
             </tr>
         </thead>
         <tbody class='results-body'>
 
         </tbody>
-        </table>
-
+    </table>
 </div>
 
 {% endblock %}

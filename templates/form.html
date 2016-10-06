@@ -3,7 +3,7 @@
         Upload CSV
     </h3>
     <div class="ui attached segment">
-        <form class="ui inverted form" action="{% url 'index-admin' %}" method="post" enctype="multipart/form-data">
+        <form class="ui inverted form" action="{% url 'upload' %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="field">
                 <label>Upload *.csv file</label>
