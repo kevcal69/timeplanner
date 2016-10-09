@@ -47,6 +47,7 @@ function fetchGroup(){
         'num': parent.find('.num').val(),
         'timein': parent.find('.time_in').val(),
         'timeout': parent.find('.time_out').val(),
+        'meeting': parent.find('.meeting').val()
     }
     $.get('group', data,function(data) {
         data = JSON.parse(data);
@@ -54,9 +55,8 @@ function fetchGroup(){
         resultTable.removeClass('hidden');
         var t = $('.results-body');
         t.empty();
-        data = assignDays(data);
+        data = assignDays(data, (data.timein || 9), (data.timeout || 20), (data.meeting || 4));
         $.each(data, function(i, obj){
-            console.log(obj);
             if(obj.time.length > 0) {
                 var time = obj.time;
                 var city = obj.group.map(function(o){
@@ -74,20 +74,17 @@ function fetchGroup(){
     });
 }
 
-function assignDays(data) {
+function assignDays(data, timeStart, timeDone, meetingPerDay) {
     data = data.sort(function(a, b) {
         if (a.time[0] < b.time[0]) return -1;
         if (a.time[0] > b.time[0]) return 1;
         return 0;
-    })
-    var timeStart = 9;
-    var timeDone = 20;
+    });
     var dataWithDays = [];
     var meetingPerDay = 4;
     var day = 1;
     var ctr = 0;
     while (true) {
-        console.log(data.length, "current length");
         var timeHour = timeStart;
         var meetings = 0;
         var index = []
@@ -106,7 +103,6 @@ function assignDays(data) {
         day += 1;
         ctr++;
         var flag = data.filter(function(obj) {return typeof(obj.days) === 'undefined' })
-        console.log(flag);
         if (flag.length === 0 || ctr > 100) {
             break;
         }

@@ -48,7 +48,11 @@ class CreateGroupView(TemplateView):
         context = super(CreateGroupView, self).\
             get_context_data(*args, **kwargs)
         context['records'] = TimezoneRecords.objects.all().order_by('timezone')
-
+        context['gmt'] = settings.D_GMT
+        context['timein'] = settings.D_TIME_IN
+        context['timeout'] = settings.D_TIME_OUT
+        context['group'] = 4
+        context['meetings'] = settings.D_MEETINGS_PER_DAY
         return context
 
 

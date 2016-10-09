@@ -60,17 +60,21 @@
         <div class="ui form">
             <div class="inline field">
                 <label>Input your GMT</label>
-                <input type="text" class="gmt" placeholder="Greenwich Mean Time">
+                <input type="text" class="gmt" value="{{gmt}}" placeholder="Greenwich Mean Time">
             </div>
             <div class="inline field">
                 <label>Number of people per group</label>
-                <input type="text" class="num" placeholder="4 default">
+                <input type="text" class="num" placeholder="4 default" value="{{group}}">
+            </div>
+            <div class="inline field">
+                <label>Number of meetings per day</label>
+                <input type="text" class="meeting" placeholder="4 default" value="{{meetings}}">
             </div>
             <div class="inline field">
                 <label>Input your Working Time in 24 hours without the minutes</label>
                 <div class="inline field">
-                    <input type="text" class="time_in" placeholder="Time in">
-                    <input type="text" class="time_out" placeholder="Time out">
+                    <input type="text" class="time_in" value="{{timein}}" placeholder="Time in">
+                    <input type="text" class="time_out" value="{{timeout}}" placeholder="Time out">
                 </div>
             </div>
             <button class="ui secondary button generate">Generate</button>
