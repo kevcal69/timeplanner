@@ -47,7 +47,6 @@ class CreateGroupView(TemplateView):
     def get_context_data(self, *args, **kwargs):
         context = super(CreateGroupView, self).\
             get_context_data(*args, **kwargs)
-        diff = settings.D_TIME_IN - settings.D_TIME_OUT
         context['records'] = TimezoneRecords.objects.all().order_by('timezone')
 
         return context
@@ -67,14 +66,8 @@ class GroupView(View):
             'timeout': int(timeout)
         }
 
-        # edit if timeout is lesser than timein
-        maxTimeDiff = settings.D_WORKTIME_OUT - settings.D_WORKTIME_IN
-        obj = []
-        for tz in TimezoneRecords.objects.all().order_by('timezone'):
-            if abs(util.getTimeDifference(
-                    int(gmt), tz.timezone)) < maxTimeDiff:
-                obj.append(tz)
-        records = self.to_dict(obj)
+        records = self.to_dict(
+            TimezoneRecords.objects.all().order_by('timezone'))
 
         results = util.createGroup(records, data)
         return HttpResponse(json.dumps(results))
