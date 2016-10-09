@@ -56,6 +56,7 @@ function fetchGroup(){
         t.empty();
         data = assignDays(data);
         $.each(data, function(i, obj){
+            console.log(obj);
             if(obj.time.length > 0) {
                 var time = obj.time;
                 var city = obj.group.map(function(o){
@@ -66,7 +67,7 @@ function fetchGroup(){
 
                 tr.append('<td>'+ city.join('<br/>') +'</td>');
                 tr.append('<td>'+ time[0]+':00 - ' + time[time.length-1]+':00' +'</td>')
-                tr.append('<td>'+ 1 +'</td>');
+                tr.append('<td>'+ obj.days +'</td>');
                 t.append(tr);
             }
         });
@@ -74,11 +75,46 @@ function fetchGroup(){
 }
 
 function assignDays(data) {
-    var data = data.sort(function(a, b) {
+    data = data.sort(function(a, b) {
         if (a.time[0] < b.time[0]) return -1;
         if (a.time[0] > b.time[0]) return 1;
         return 0;
     })
-    console.log(data.length);
+    var timeStart = 9;
+    var timeDone = 20;
+    var dataWithDays = [];
+    var meetingPerDay = 4;
+    var day = 1;
+    var ctr = 0;
+    while (true) {
+        console.log(data.length, "current length");
+        var timeHour = timeStart;
+        var meetings = 0;
+        var index = []
+        for(var i = 0; i < data.length; i++) {
+            var mdat = data[i];
+            if (typeof(mdat.days) === 'undefined' && timeHour <= mdat.time[0]) {
+                timeHour = mdat.time[mdat.time.length-1];
+                mdat.days = day;
+                meetings++;
+            }
+            if (meetingPerDay === meetings) {
+                break;
+            }
+        }
+
+        day += 1;
+        ctr++;
+        var flag = data.filter(function(obj) {return typeof(obj.days) === 'undefined' })
+        console.log(flag);
+        if (flag.length === 0 || ctr > 100) {
+            break;
+        }
+    }
+    data = data.sort(function(a, b) {
+        if (a.days < b.days) return -1;
+        if (a.days > b.days) return 1;
+        return 0;
+    })
     return data;
 }

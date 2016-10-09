@@ -54,20 +54,31 @@ function fetchGroup(){
         resultTable.removeClass('hidden');
         var t = $('.results-body');
         t.empty();
+        data = assignDays(data);
         $.each(data, function(i, obj){
             if(obj.time.length > 0) {
                 var time = obj.time;
                 var city = obj.group.map(function(o){
                     o.time = o.time || [0,0]
-                    return o.city + '<span class="small-font"> ('+o.time[0]+':00-'+o.time[1]+':00)</span>';
+                    return o.city + '<span class="small-font"> ('+o.time[0]+':00-'+o.time[1]+':00 GMT '+o.timezone+')</span>';
                 });
                 var tr = $('<tr></tr>');
 
                 tr.append('<td>'+ city.join('<br/>') +'</td>');
                 tr.append('<td>'+ time[0]+':00 - ' + time[time.length-1]+':00' +'</td>')
-                tr.append('<td><button class="ui green button add">Add</button></td>')
+                tr.append('<td>'+ 1 +'</td>');
                 t.append(tr);
             }
         });
     });
+}
+
+function assignDays(data) {
+    var data = data.sort(function(a, b) {
+        if (a.time[0] < b.time[0]) return -1;
+        if (a.time[0] > b.time[0]) return 1;
+        return 0;
+    })
+    console.log(data.length);
+    return data;
 }
