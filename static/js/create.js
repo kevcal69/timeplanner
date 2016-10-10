@@ -42,20 +42,20 @@ $('.generate').on('click', fetchGroup);
 
 function fetchGroup(){
     var parent = $(this).parent();
-    var data = {
+    var params = {
         'gmt': parent.find('.gmt').val(),
         'num': parent.find('.num').val(),
         'timein': parent.find('.time_in').val(),
         'timeout': parent.find('.time_out').val(),
         'meeting': parent.find('.meeting').val()
     }
-    $.get('group', data,function(data) {
+    $.get('group', params, function(data) {
         data = JSON.parse(data);
         var resultTable = $('.results');
         resultTable.removeClass('hidden');
         var t = $('.results-body');
         t.empty();
-        data = assignDays(data, (data.timein || 9), (data.timeout || 20), (data.meeting || 4));
+        data = assignDays(data, (params.timein || 9), (params.timeout || 20), (params.meeting || 4));
         $.each(data, function(i, obj){
             if(obj.time.length > 0) {
                 var time = obj.time;
@@ -75,13 +75,14 @@ function fetchGroup(){
 }
 
 function assignDays(data, timeStart, timeDone, meetingPerDay) {
+
     data = data.sort(function(a, b) {
         if (a.time[0] < b.time[0]) return -1;
         if (a.time[0] > b.time[0]) return 1;
         return 0;
     });
     var dataWithDays = [];
-    var meetingPerDay = 4;
+
     var day = 1;
     var ctr = 0;
     while (true) {
@@ -95,7 +96,8 @@ function assignDays(data, timeStart, timeDone, meetingPerDay) {
                 mdat.days = day;
                 meetings++;
             }
-            if (meetingPerDay === meetings) {
+            if (meetingPerDay == meetings) {
+                console.log(day, meetings);
                 break;
             }
         }
